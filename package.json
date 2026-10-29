@@ -1,0 +1,69 @@
+{
+  "name": "dsh-inbox",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 信息聚合中心插件：把个人邮箱（Gmail / QQ邮箱）聚合到一个统一收件箱里查看，支持未读统计、渠道/账号筛选、搜索与邮件正文预览。",
+  "icon": "icon.svg",
+  "author": "gary",
+  "type": "module",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0",
+    "dsh": ">=0.2.0-rc.2 || >=0.2.1-rc.2"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "icon.svg",
+    "lib/client.js",
+    "lib/index.js",
+    "lib/mail.js",
+    "lib/store.js",
+    "lib/vendor.cjs",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "imapflow": "1.0.164",
+    "mailparser": "3.6.9"
+  },
+  "scripts": {
+    "build:vendor": "esbuild lib/vendor-src.mjs --bundle --platform=node --format=cjs --target=node18 --outfile=lib/vendor.cjs --log-level=warning"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ],
+      "platform": "web"
+    },
+    "compatibility": {
+      "dshReleases": {
+        "0.2.0-rc.2": "compatible",
+        "0.2.1-rc.2": "compatible"
+      }
+    }
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "cordis",
+    "plugin",
+    "inbox",
+    "email",
+    "aggregator",
+    "imap"
+  ],
+  "license": "MIT"
+}

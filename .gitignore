@@ -1,0 +1,7 @@
+node_modules/
+*.log
+.DS_Store
+# local secrets / data must never be committed
+*.key
+secrets.json
+.secret/
