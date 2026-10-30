@@ -56,6 +56,7 @@ Full message bodies are fetched on demand and cached in memory only. Nothing is 
 - **Host half** (`lib/index.js` + `lib/mail.js` + `lib/store.js`): IMAP sync loop using [`imapflow`](https://github.com/postalsys/imapflow) and [`mailparser`](https://github.com/nodemailer/mailparser); exposes `POST /api/dsh-inbox/state`.
 - **Browser half** (`lib/client.js`): registers a `main` panel and a `sidebar.panellist` entry; talks to the host route.
 - **Zero runtime dependencies**: `imapflow` and `mailparser` are pre-bundled by esbuild into a single `lib/vendor.cjs`, so no `node_modules` is needed at install time (after changing deps, run `npm install && npm run build:vendor`).
+- **Crash-safe sync**: every IMAP client carries an `error` listener, so a reset socket can no longer bubble up as an uncaught exception and take the whole DSH host down (that is what happened on 2026-10-30). One sync pass is capped at 90 s and a watchdog clears `running` flags older than 5 minutes, so the loop always resumes. `npm test` covers both offline.
 
 > After a first install or a host-code update, if behaviour does not look like the latest version, restart DSH once so the host half reloads (saved data is unaffected). Refreshing the page reloads the browser half.
 

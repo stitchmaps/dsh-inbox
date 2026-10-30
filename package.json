@@ -1,6 +1,6 @@
 {
   "name": "dsh-inbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DeepSeek Harness 信息聚合中心插件：把个人邮箱（Gmail / QQ邮箱）聚合到一个统一收件箱里查看，支持未读统计、渠道/账号筛选、搜索与邮件正文预览。",
   "icon": "icon.svg",
   "author": "gary",
@@ -33,7 +33,8 @@
     "mailparser": "3.6.9"
   },
   "scripts": {
-    "build:vendor": "esbuild lib/vendor-src.mjs --bundle --platform=node --format=cjs --target=node18 --outfile=lib/vendor.cjs --log-level=warning"
+    "build:vendor": "esbuild lib/vendor-src.mjs --bundle --platform=node --format=cjs --target=node18 --outfile=lib/vendor.cjs --log-level=warning",
+    "test": "node tests/self-test.mjs"
   },
   "dsh": {
     "bundle": {

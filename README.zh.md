@@ -56,6 +56,7 @@ pwsh -File .\install.ps1
 - **宿主半侧**（`lib/index.js` + `lib/mail.js` + `lib/store.js`）：基于 [`imapflow`](https://github.com/postalsys/imapflow) 与 [`mailparser`](https://github.com/nodemailer/mailparser) 的 IMAP 同步循环，暴露 `POST /api/dsh-inbox/state`。
 - **浏览器半侧**（`lib/client.js`）：注册 `main` 面板与 `sidebar.panellist` 入口，调用宿主路由。
 - **零运行时依赖**：`imapflow` 与 `mailparser` 已用 esbuild 预打包为单文件 `lib/vendor.cjs`，安装时不需要 `node_modules`（改动依赖后在本仓库执行 `npm install && npm run build:vendor` 重新生成）。
+- **崩溃防护**：每个 IMAP 客户端都挂了 `error` 监听，socket 被重置不会再冒泡成未捕获异常、带走整个 DSH 宿主（2026-10-30 的崩溃即由此而来）；单轮同步上限 90 秒，并用看门狗复位超过 5 分钟的 `running` 标记，循环不会再次卡死。`npm test` 可离线覆盖这两条路径。
 
 > 首次安装或更新了宿主代码后，如发现面板/同步行为不是最新版本，请重启一次 DSH 以加载宿主半侧（已保存数据不受影响）。浏览器半侧刷新页面即可更新。
 
